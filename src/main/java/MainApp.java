@@ -1,19 +1,72 @@
 import transport.Transport;
 
+import java.io.*;
 import java.util.*;
 
 public class MainApp {
 
     public static void main(String[] args) {
-        List<String> inputTransport = input();
+
+        Scanner scanner = new Scanner(System.in);
+        List<String> inputTransport = null;
+
+        int action = -1;
+        do {
+            System.out.println("Выберите действие:" + "\n"
+                    + "0 - выход" + "\n"
+                    + "1 - ввести с клавиатуры" + "\n"
+                    + "2 - считать из файла" + "\n");
+            action = scanner.nextInt();
+            switch (action) {
+                case 1:
+                    inputTransport = input(scanner);
+                    break;
+                case 2:
+                    inputTransport = inputFromFile();
+                    break;
+                case 0:
+                    System.exit(-1);
+            }
+        } while (action < 0);
+
+        if (inputTransport == null) {
+            System.exit(-1);
+        }
         List<Transport> transports = filling(inputTransport);
+        output(transports);
         System.out.println("Sorting...");
         transports.sort(new TransportUtils.TransportComparator());
         output(transports);
     }
 
-    public static List<String> input() {
-        Scanner scanner = new Scanner(System.in);
+    private static List<String> inputFromFile() {
+        List<String> resultList = new ArrayList<String>();
+
+        String filePath = "C:\\Users\\svetlana.snezhkova\\IdeaProjects\\transportFactory\\src\\main\\resources\\transports.txt";
+
+        try {
+            File file = new File(filePath);
+            FileReader fr = new FileReader(file);
+            BufferedReader reader = new BufferedReader(fr);
+            String line;
+
+            do {
+                line = reader.readLine();
+                if (line != null && TransportUtils.isValidString(line)) {
+                    resultList.add(line);
+                }
+            } while (line != null);
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return resultList;
+    }
+
+    public static List<String> input(Scanner scanner) {
         int count = 0;
         List<String> resultList = new ArrayList<String>();
 

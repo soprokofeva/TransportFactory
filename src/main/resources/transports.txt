@@ -1,0 +1,6 @@
+1 MiniBike 10 1
+6 Taiga 50 12
+2 Yava 20 2
+3 Beetle 30 14
+4 VAZ-2105 39 10
+4 Golf 55 7

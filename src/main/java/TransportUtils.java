@@ -40,14 +40,14 @@ public class TransportUtils {
             int result = 0;
             result = isZeroCompareAgain(result, Integer.compare(t2.getCountWheels(), t1.getCountWheels()));
             result = isZeroCompareAgain(result, Double.compare(t2.getPath(), t1.getPath()));
-            result = isZeroCompareAgain(result, String.CASE_INSENSITIVE_ORDER.compare(t2.getName(), t1.getName()));
+            result = isZeroCompareAgain(result, String.CASE_INSENSITIVE_ORDER.compare(t1.getName(), t2.getName()));
             return result;
         }
 
     }
 
     public static int isZeroCompareAgain(int old, int newValue) {
-        return old == 0 ? newValue : 0;
+        return old == 0 ? newValue : old;
     }
 
 }
