@@ -60,6 +60,10 @@ public class TransportDefault implements Transport {
                 '}';
     }
 
+    public String toStringWithoutFieldName() {
+        return countWheels + " " + name + " " + capacity + " " + consumption100Km;
+    }
+
     @Override
     public double getPath() {
         return this.getConsumption100Km() != 0 ? this.getCapacity() / this.getConsumption100Km() * 100 : 0;

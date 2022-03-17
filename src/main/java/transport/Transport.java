@@ -7,4 +7,5 @@ public interface Transport {
     double getCapacity();
     double getConsumption100Km();
     double getPath();
+    String toStringWithoutFieldName();
 }

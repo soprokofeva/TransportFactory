@@ -9,6 +9,7 @@ public class MainApp {
 
         Scanner scanner = new Scanner(System.in);
         List<String> inputTransport = null;
+        List<Transport> transports = null;
 
         int action = -1;
         do {
@@ -20,9 +21,17 @@ public class MainApp {
             switch (action) {
                 case 1:
                     inputTransport = input(scanner);
+                    transports = filling(inputTransport);
+                    output(transports);
+                    System.out.println("Sorting...");
+                    transports.sort(new TransportUtils.TransportComparator());
+                    output(transports);
                     break;
                 case 2:
                     inputTransport = inputFromFile();
+                    transports = filling(inputTransport);
+                    transports.sort(new TransportUtils.TransportComparator());
+                    outputIntoFile(transports);
                     break;
                 case 0:
                     System.exit(-1);
@@ -32,22 +41,17 @@ public class MainApp {
         if (inputTransport == null) {
             System.exit(-1);
         }
-        List<Transport> transports = filling(inputTransport);
-        output(transports);
-        System.out.println("Sorting...");
-        transports.sort(new TransportUtils.TransportComparator());
-        output(transports);
+
     }
 
     private static List<String> inputFromFile() {
         List<String> resultList = new ArrayList<String>();
-
-        String filePath = "C:\\Users\\svetlana.snezhkova\\IdeaProjects\\transportFactory\\src\\main\\resources\\transports.txt";
-
         try {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+            String filePath = reader.readLine();
             File file = new File(filePath);
             FileReader fr = new FileReader(file);
-            BufferedReader reader = new BufferedReader(fr);
+            reader = new BufferedReader(fr);
             String line;
 
             do {
@@ -86,7 +90,7 @@ public class MainApp {
         String data;
 
         for (int i = 0; i < count; i++) {
-            System.out.println(i + 1 +".");
+            System.out.println(i + 1 + ".");
             do {
                 data = scanner.nextLine();
             } while (!TransportUtils.isValidString(data));
@@ -114,6 +118,20 @@ public class MainApp {
         }
 
         return transportlist;
+    }
+
+    public static void outputIntoFile(List<Transport> transports) {
+        try {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+            String filePath = reader.readLine();
+            BufferedWriter writer = new BufferedWriter(new FileWriter(filePath));
+            for (Transport transport : transports) {
+                writer.write(transport.toStringWithoutFieldName() + "\n");
+            }
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void output(List<Transport> transports) {
